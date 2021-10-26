@@ -10,12 +10,13 @@ namespace MVC_Entity_Framework.Data
         }
 
         public DbSet<Calificacion> Calificaciones { get; set; }
-        public DbSet<Contacto> Contactos { get; set; }
-        public DbSet<Estudiante> Estudiantes { get; set; }
+        public DbSet<Contacto> Contactos { get; set; }        
         public DbSet<Materia> Materias { get; set; }
         public DbSet<MateriaEstudiante> MateriasEstudiantes { get; set; }
+
+        //public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Estudiante> Estudiantes { get; set; }
         public DbSet<Docente> Docentes { get; set; }
         public DbSet<Administrador> Administradores { get; set; }
-        public DbSet<Usuario> Usuarios { get; set; }
     }
 }

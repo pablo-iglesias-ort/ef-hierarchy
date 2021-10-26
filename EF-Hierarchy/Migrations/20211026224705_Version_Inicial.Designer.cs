@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MVC_Entity_Framework.Migrations
 {
     [DbContext(typeof(MVC_Entity_FrameworkContext))]
-    [Migration("20211026204837_Version_Inicial")]
+    [Migration("20211026224705_Version_Inicial")]
     partial class Version_Inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -17,6 +17,40 @@ namespace MVC_Entity_Framework.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.15");
+
+            modelBuilder.Entity("MVC_Entity_Framework.Models.Administrador", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Apellido")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(80);
+
+                    b.Property<byte[]>("Contraseña")
+                        .HasColumnType("BLOB");
+
+                    b.Property<int>("Dni")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("FechaDeNacimiento")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(40);
+
+                    b.Property<string>("User")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(20);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Administradores");
+                });
 
             modelBuilder.Entity("MVC_Entity_Framework.Models.Calificacion", b =>
                 {
@@ -78,6 +112,78 @@ namespace MVC_Entity_Framework.Migrations
                     b.ToTable("Contactos");
                 });
 
+            modelBuilder.Entity("MVC_Entity_Framework.Models.Docente", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Apellido")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(80);
+
+                    b.Property<byte[]>("Contraseña")
+                        .HasColumnType("BLOB");
+
+                    b.Property<string>("Cuil")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Dni")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("FechaDeNacimiento")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(40);
+
+                    b.Property<string>("User")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(20);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Docentes");
+                });
+
+            modelBuilder.Entity("MVC_Entity_Framework.Models.Estudiante", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Apellido")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(80);
+
+                    b.Property<byte[]>("Contraseña")
+                        .HasColumnType("BLOB");
+
+                    b.Property<int>("Dni")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("FechaDeNacimiento")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(40);
+
+                    b.Property<string>("User")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(20);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Estudiantes");
+                });
+
             modelBuilder.Entity("MVC_Entity_Framework.Models.Materia", b =>
                 {
                     b.Property<Guid>("Id")
@@ -117,71 +223,6 @@ namespace MVC_Entity_Framework.Migrations
                     b.HasIndex("MateriaId");
 
                     b.ToTable("MateriasEstudiantes");
-                });
-
-            modelBuilder.Entity("MVC_Entity_Framework.Models.Usuario", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Apellido")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(80);
-
-                    b.Property<byte[]>("Contraseña")
-                        .HasColumnType("BLOB");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("Dni")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("FechaDeNacimiento")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Nombre")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(40);
-
-                    b.Property<string>("User")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(20);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Usuarios");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Usuario");
-                });
-
-            modelBuilder.Entity("MVC_Entity_Framework.Models.Administrador", b =>
-                {
-                    b.HasBaseType("MVC_Entity_Framework.Models.Usuario");
-
-                    b.HasDiscriminator().HasValue("Administrador");
-                });
-
-            modelBuilder.Entity("MVC_Entity_Framework.Models.Docente", b =>
-                {
-                    b.HasBaseType("MVC_Entity_Framework.Models.Usuario");
-
-                    b.Property<string>("Cuil")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasDiscriminator().HasValue("Docente");
-                });
-
-            modelBuilder.Entity("MVC_Entity_Framework.Models.Estudiante", b =>
-                {
-                    b.HasBaseType("MVC_Entity_Framework.Models.Usuario");
-
-                    b.HasDiscriminator().HasValue("Estudiante");
                 });
 
             modelBuilder.Entity("MVC_Entity_Framework.Models.Calificacion", b =>
