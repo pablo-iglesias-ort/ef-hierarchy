@@ -76,44 +76,22 @@ namespace MVC_Entity_Framework.Migrations
                     b.ToTable("Contactos");
                 });
 
-            modelBuilder.Entity("MVC_Entity_Framework.Models.Estudiante", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Apellido")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(80);
-
-                    b.Property<int>("Dni")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("FechaDeNacimiento")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Nombre")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(40);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Estudiantes");
-                });
-
             modelBuilder.Entity("MVC_Entity_Framework.Models.Materia", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
+                    b.Property<Guid>("DocenteId")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DocenteId");
 
                     b.ToTable("Materias");
                 });
@@ -145,15 +123,28 @@ namespace MVC_Entity_Framework.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Apellido")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(80);
+
                     b.Property<byte[]>("Contraseña")
                         .HasColumnType("BLOB");
 
-                    b.Property<string>("Nombre")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(50);
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
-                    b.Property<int>("Rol")
+                    b.Property<int>("Dni")
                         .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("FechaDeNacimiento")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(40);
 
                     b.Property<string>("User")
                         .HasColumnType("TEXT")
@@ -162,6 +153,33 @@ namespace MVC_Entity_Framework.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Usuarios");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Usuario");
+                });
+
+            modelBuilder.Entity("MVC_Entity_Framework.Models.Administrador", b =>
+                {
+                    b.HasBaseType("MVC_Entity_Framework.Models.Usuario");
+
+                    b.HasDiscriminator().HasValue("Administrador");
+                });
+
+            modelBuilder.Entity("MVC_Entity_Framework.Models.Docente", b =>
+                {
+                    b.HasBaseType("MVC_Entity_Framework.Models.Usuario");
+
+                    b.Property<string>("Cuil")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasDiscriminator().HasValue("Docente");
+                });
+
+            modelBuilder.Entity("MVC_Entity_Framework.Models.Estudiante", b =>
+                {
+                    b.HasBaseType("MVC_Entity_Framework.Models.Usuario");
+
+                    b.HasDiscriminator().HasValue("Estudiante");
                 });
 
             modelBuilder.Entity("MVC_Entity_Framework.Models.Calificacion", b =>
@@ -184,6 +202,15 @@ namespace MVC_Entity_Framework.Migrations
                     b.HasOne("MVC_Entity_Framework.Models.Estudiante", "Estudiante")
                         .WithOne("Contacto")
                         .HasForeignKey("MVC_Entity_Framework.Models.Contacto", "EstudianteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MVC_Entity_Framework.Models.Materia", b =>
+                {
+                    b.HasOne("MVC_Entity_Framework.Models.Docente", "Docente")
+                        .WithMany("Materias")
+                        .HasForeignKey("DocenteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

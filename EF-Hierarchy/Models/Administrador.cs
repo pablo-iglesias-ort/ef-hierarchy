@@ -6,19 +6,13 @@ using System.Threading.Tasks;
 
 namespace MVC_Entity_Framework.Models
 {
-	public class Materia
+	public class Administrador : Usuario
 	{
 		// Propiedades de la entidad
 
-		[Key]
-		public Guid Id { get; set; }
-
-		[Required(ErrorMessage = "Este campo es obligatorio")]
-		public string Nombre { get; set; }
+		public override Rol Rol => Rol.Administrador;
 
 
 		// Relaciones con otras entidades
-
-		public IEnumerable<MateriaEstudiante> Estudiantes { get; set; }
 	}
 }

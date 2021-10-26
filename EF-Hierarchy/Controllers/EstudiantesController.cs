@@ -47,7 +47,7 @@ namespace MVC_Entity_Framework.Controllers
 
 
 
-        [Authorize(Roles = nameof(Rol.Administrador))]
+        [Authorize(Roles = nameof(Rol.Docente))]
         public IActionResult Create()
         {
             return View();
@@ -55,7 +55,7 @@ namespace MVC_Entity_Framework.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = nameof(Rol.Administrador))]
+        [Authorize(Roles = nameof(Rol.Docente))]
         public async Task<IActionResult> Create(Estudiante estudiante)
         {
             if (ModelState.IsValid)
@@ -68,7 +68,7 @@ namespace MVC_Entity_Framework.Controllers
             return View(estudiante);
         }
 
-        [Authorize(Roles = nameof(Rol.Administrador))]
+        [Authorize(Roles = nameof(Rol.Docente))]
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -86,7 +86,7 @@ namespace MVC_Entity_Framework.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = nameof(Rol.Administrador))]
+        [Authorize(Roles = nameof(Rol.Docente))]
         public async Task<IActionResult> Edit(Guid id, [Bind("Id,Dni,Nombre,Apellido,FechaDeNacimiento")] Estudiante estudiante)
         {
             if (id != estudiante.Id)
@@ -117,7 +117,7 @@ namespace MVC_Entity_Framework.Controllers
             return View(estudiante);
         }
 
-        [Authorize(Roles = nameof(Rol.Administrador))]
+        [Authorize(Roles = nameof(Rol.Docente))]
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -137,7 +137,7 @@ namespace MVC_Entity_Framework.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = nameof(Rol.Administrador))]
+        [Authorize(Roles = nameof(Rol.Docente))]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var estudiante = await _context.Estudiantes.FindAsync(id);

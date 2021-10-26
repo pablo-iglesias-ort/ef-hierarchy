@@ -43,7 +43,7 @@ namespace MVC_Entity_Framework.Controllers
             if (!string.IsNullOrEmpty(usuario) && !string.IsNullOrEmpty(pass)){
 
                 // Verificamos que exista el usuario
-                var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.User == usuario);
+                var user = await _context.Estudiantes.FirstOrDefaultAsync(u => u.User == usuario);
                 if (user != null)
                 {
 
@@ -109,7 +109,7 @@ namespace MVC_Entity_Framework.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Registrarse(Usuario usuario, string pass)
+        public async Task<IActionResult> Registrarse(Estudiante usuario, string pass)
         {
             if (ModelState.IsValid)
             {
@@ -117,7 +117,6 @@ namespace MVC_Entity_Framework.Controllers
                 if (seguridad.ValidarPass(pass))
                 {
                     usuario.Contraseña = seguridad.EncriptarPass(pass);
-                    usuario.Rol = Rol.Estudiante;
                     _context.Add(usuario);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Ingresar));

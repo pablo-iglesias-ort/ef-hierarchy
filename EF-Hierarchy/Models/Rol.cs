@@ -7,7 +7,8 @@ namespace MVC_Entity_Framework.Models
 {
 	public enum Rol
 	{
-		Administrador = 1,
-		Estudiante = 2
+		Docente = 1,
+		Estudiante = 2, 
+		Administrador = 3
 	}
 }

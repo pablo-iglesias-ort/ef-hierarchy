@@ -8,41 +8,18 @@ namespace MVC_Entity_Framework.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Estudiantes",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    Dni = table.Column<int>(nullable: false),
-                    Nombre = table.Column<string>(maxLength: 40, nullable: false),
-                    Apellido = table.Column<string>(maxLength: 80, nullable: false),
-                    FechaDeNacimiento = table.Column<DateTime>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Estudiantes", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Materias",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    Nombre = table.Column<string>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Materias", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Usuarios",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
                     User = table.Column<string>(maxLength: 20, nullable: true),
                     Contraseña = table.Column<byte[]>(nullable: true),
-                    Nombre = table.Column<string>(maxLength: 50, nullable: true),
-                    Rol = table.Column<int>(nullable: false)
+                    Dni = table.Column<int>(nullable: false),
+                    Nombre = table.Column<string>(maxLength: 40, nullable: false),
+                    Apellido = table.Column<string>(maxLength: 80, nullable: false),
+                    FechaDeNacimiento = table.Column<DateTime>(nullable: false),
+                    Discriminator = table.Column<string>(nullable: false),
+                    Cuil = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -65,9 +42,28 @@ namespace MVC_Entity_Framework.Migrations
                 {
                     table.PrimaryKey("PK_Contactos", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Contactos_Estudiantes_EstudianteId",
+                        name: "FK_Contactos_Usuarios_EstudianteId",
                         column: x => x.EstudianteId,
-                        principalTable: "Estudiantes",
+                        principalTable: "Usuarios",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Materias",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Nombre = table.Column<string>(nullable: false),
+                    DocenteId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Materias", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Materias_Usuarios_DocenteId",
+                        column: x => x.DocenteId,
+                        principalTable: "Usuarios",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -85,9 +81,9 @@ namespace MVC_Entity_Framework.Migrations
                 {
                     table.PrimaryKey("PK_Calificaciones", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Calificaciones_Estudiantes_EstudianteId",
+                        name: "FK_Calificaciones_Usuarios_EstudianteId",
                         column: x => x.EstudianteId,
-                        principalTable: "Estudiantes",
+                        principalTable: "Usuarios",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -110,9 +106,9 @@ namespace MVC_Entity_Framework.Migrations
                 {
                     table.PrimaryKey("PK_MateriasEstudiantes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_MateriasEstudiantes_Estudiantes_EstudianteId",
+                        name: "FK_MateriasEstudiantes_Usuarios_EstudianteId",
                         column: x => x.EstudianteId,
-                        principalTable: "Estudiantes",
+                        principalTable: "Usuarios",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -140,6 +136,11 @@ namespace MVC_Entity_Framework.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Materias_DocenteId",
+                table: "Materias",
+                column: "DocenteId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_MateriasEstudiantes_EstudianteId",
                 table: "MateriasEstudiantes",
                 column: "EstudianteId");
@@ -162,13 +163,10 @@ namespace MVC_Entity_Framework.Migrations
                 name: "MateriasEstudiantes");
 
             migrationBuilder.DropTable(
-                name: "Usuarios");
-
-            migrationBuilder.DropTable(
-                name: "Estudiantes");
-
-            migrationBuilder.DropTable(
                 name: "Materias");
+
+            migrationBuilder.DropTable(
+                name: "Usuarios");
         }
     }
 }
